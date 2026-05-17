@@ -9,6 +9,7 @@ const { env } = require('hono/adapter');
 const { serveStatic } = require('@hono/node-server/serve-static');
 const { trimTrailingSlash } = require('hono/trailing-slash');
 const layout = require('./layout');
+const { cors } = require('hono/cors');
 
 const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api')
@@ -21,6 +22,7 @@ app.use(secureHeaders());
 app.use(trimTrailingSlash());
 
 // ルーティング
+app.use('/api/*', cors());
 app.route('/', indexRouter);
 app.route('/api', apiRouter);
 

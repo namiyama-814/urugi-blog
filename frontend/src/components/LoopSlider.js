@@ -10,7 +10,15 @@ export default function LoopSlider({ posts }) {
   const startXRef = useRef(0);
   const scrollLeftStartRef = useRef(0);
 
-  const pickupPosts = posts.slice(0, 5);
+  const safePosts = Array.isArray(posts)
+    ? posts
+    : posts && Array.isArray(posts.posts)
+    ? posts.posts
+    : posts && Array.isArray(posts.data)
+    ? posts.data
+    : [];
+
+  const pickupPosts = safePosts.slice(0, 5);
 
   const getStep = () => {
     if (!sliderRef.current) return 0;
@@ -20,7 +28,7 @@ export default function LoopSlider({ posts }) {
   };
 
   useEffect(() => {
-    if (posts.length === 0 || !sliderRef.current) return;
+    if (safePosts.length === 0 || !sliderRef.current) return;
 
     const initSlider = () => {
       const slider = sliderRef.current;
@@ -36,7 +44,7 @@ export default function LoopSlider({ posts }) {
       clearTimeout(timer);
       window.removeEventListener('resize', initSlider);
     };
-  }, [posts]);
+  }, [safePosts]);
 
   const handleScroll = () => {
     const slider = sliderRef.current;
