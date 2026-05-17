@@ -12,7 +12,7 @@ const layout = require('./layout');
 const { cors } = require('hono/cors');
 
 const indexRouter = require('./routes/index');
-const apiRouter = require('./routes/api')
+const apiRouter = require('./routes/api');
 
 const app = new Hono();
 
